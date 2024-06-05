@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Admin = require("../models/admin");
 const moment = require('moment');
+const Restaurant = require("../models/restaurant");
 moment.locale("en-US");
 const create= async(obj)=>{
     let res = await User.create(obj);
@@ -32,12 +33,66 @@ const checkUserRegister = async (userEmail,userPhone)=>{
     return result;
 }
 
+const initRestaurant = async (id)=>{
+    let _ini = {
+        "refID":id,
+        "name": "ชื่อร้านอาหาร",
+        "latitude": 13.729056,
+        "longitude": 100.583809,
+        "address": "ที่อยู่",
+        "phone": "xxx-xxx-xxxx",
+        "reservationRequired": true,
+        "status": "inactive",
+        "openingHours": {
+          "monday": {
+            "start": "09:00",
+            "to": "00:00",
+            "open": "off"
+          },
+          "tuesday": {
+            "start": "09:00",
+            "to": "00:00",
+            "open": "off"
+          },
+          "wednesday": {
+            "start": "09:00",
+            "to": "00:00",
+            "open": "off"
+          },
+          "thursday": {
+            "start": "09:00",
+            "to": "00:00",
+            "open": "off"
+          },
+          "friday": {
+            "start": "09:00",
+            "to": "00:00",
+            "open": "off"
+          },
+          "saturday": {
+            "start": "09:00",
+            "to": "00:00",
+            "open": "off"
+          },
+          "sunday": {
+            "start": "09:00",
+            "to": "00:00",
+            "open": "off"
+          }
+        },
+        "notes": "หมายเหตุ",
+        "conditions": ["กฏของการใช้บริการ"],
+        "logo": "",
+    }
+    let ret = await Restaurant.create(_ini);
+    return ret;
+}
 
 const updateRole = async (credentials)=>{
     let up = await User.findOneAndUpdate({_id:credentials.id},{userRole:credentials.role},{ returnOriginal: false }); 
     if (credentials.role=='restaurant') {
         let restaurant = await initRestaurant(credentials.id);
-        await initPackage(restaurant._id);
+        // await initPackage(restaurant._id);
     }
   
     return up;
