@@ -12,9 +12,9 @@ moment.locale("en-US");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
-// var restaurantRoute = require('./routes/restaurant');
-// var storageRouter = require('./routes/storage');
-// var queueRouter = require('./routes/queue');
+var restaurantRoute = require('./routes/restaurant');
+var storageRouter = require('./routes/storage');
+
 
 //Setup Default
 var app = express();
@@ -66,10 +66,10 @@ setupDefaultAdmin();
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-// app.use('/storage', storageRouter);
+app.use('/storage', storageRouter);
 app.use('/admin',adminRouter);
-// app.use('/restaurant',restaurantRoute);
-// app.use('/queue',queueRouter);
+app.use('/restaurant',restaurantRoute);
+
 
 
 

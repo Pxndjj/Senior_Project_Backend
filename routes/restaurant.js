@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var restaurantCtl = require("./../controllers/restaurant-controller");
-var usePackageCtl = require("../controllers/use-package-controller");
-var notificationCtl = require("../controllers/notification-controller");
-var packageCtl = require("../controllers/package-controller");
 const path = require('path');
 const fs = require('fs');
 
