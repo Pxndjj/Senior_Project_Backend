@@ -5,6 +5,7 @@ const create = async (obj) => {
   return res;
 }
 const update = async (obj) => {
+  console.log(obj)
   let res = await Restaurant.findOneAndUpdate({ _id: obj._id }, { $set: obj }, { new: true });
   return res;
 }

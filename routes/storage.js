@@ -39,7 +39,6 @@ router.post('/createlogo', upload.single('file'), async function (req, res) {
         const targetPath = path.join(__dirname, '../storage/image/logo/' + uploadId + ".jpeg");
         fs.rename(tempPath, targetPath, (err) => {
             if (err) throw err;
-            console.log('File saved successfully');
             res.sendStatus(200);
         });
     } catch (error) {

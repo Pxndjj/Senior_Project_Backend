@@ -14,8 +14,7 @@ var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var restaurantRoute = require('./routes/restaurant');
 var storageRouter = require('./routes/storage');
-
-
+var queueRouter = require('./routes/queue');
 //Setup Default
 var app = express();
 // view engine setup
@@ -24,38 +23,21 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const connectMongoDB = require("./libs/mongodb");
 const setupDefaultAdmin=async()=>{
   const Admin = require("./models/admin");
-  // const Restaurant = require("./models/restaurant");
-  // const UsePackage = require("./models/use-package");
+  const Restaurant = require("./models/restaurant");
   await connectMongoDB();
   //alter data
-  keyPackageFree = "664f62d6c88882f7559b2e3f";
-  // let resValue = (await Restaurant.find()).map((o)=>{
-  //   return o._id.toString();
-  // })
-  // let resUsePackageValue = (await UsePackage.find()).map((o)=>{
-  //   return o.refID;
-  // })
-//   let dataToAlter = resValue.filter(_id => 
-//     !resUsePackageValue.some(_id2 => _id2 === _id)
-// );
-// for (const id of dataToAlter) {
-//   let start_date = moment();
-//   let end_date = moment().add(1, 'y');
-//   let objCreate = {
-//     "package_id":keyPackageFree,
-//     "refID":id,
-//     "status":"active",
-//     "start_date":start_date,
-//     "end_date":end_date
-//   }
-//   await UsePackage.create(objCreate);
-// }
+  let resValue = (await Restaurant.find()).map((o)=>{
+    return o._id.toString();
+  })
+
+
   const isDefault = await Admin.find();
   if(isDefault.length==0){
     await Admin.create({"email":process.env.ADMIN_DEFAULT})
@@ -69,9 +51,7 @@ app.use('/users', usersRouter);
 app.use('/storage', storageRouter);
 app.use('/admin',adminRouter);
 app.use('/restaurant',restaurantRoute);
-
-
-
+app.use('/queue',queueRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

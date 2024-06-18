@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const queueCtl = require('../controllers/queue-controller');
 const restaurantCtl = require('../controllers/restaurant-controller');
-// const genQrcodeImage = require('../libs/gen-qrcode-Image');
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
@@ -30,7 +29,6 @@ router.post('/', async (req, res, next) => {
 
 router.post('/updateQueue', async (req, res, next) => {
   try {
-    //แล้วส่งข้อมูลที่จะ update มาที่ body.data
     const newData = req.body.data;
     let ret = await queueCtl.update(newData);
     return res.json(ret);
@@ -41,7 +39,6 @@ router.post('/updateQueue', async (req, res, next) => {
 });
 router.get('/get/:id?', async (req, res, next) => {
   try {
-    //localhost:3001/admin/get/66292b823b985a34d7f21311
     const id = req.query.id;
     let ret = await queueCtl.findByID(id);
     return res.json(ret);
@@ -72,20 +69,6 @@ router.post('/nextqueue', async (req, res, next) => {
   }
 
 });
-
-router.get('/genqrcode/:id', async (req, res, next) => {
-  try {
-    const refID = req.params.id || 'NO QUEUE';
-    const imageBlob = await genQrcodeImage(refID);
-    res.set('Content-Type', 'image/png');
-    res.send(imageBlob);
-  } catch (error) {
-    console.log(error);
-    return res.status(401).send("error");
-  }
-
-});
-
 
 
 module.exports = router;

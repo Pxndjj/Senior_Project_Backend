@@ -5,9 +5,10 @@ const models = mongoose.models;
 
 const queueSchema = new Schema(
   {
-    restaurant: { type: String, required: true },
-    refID: { type: String, required: true }, 
+    restaurant: { type: String, required: true },//ชื่อของร้านอาหาร
+    refID: { type: String, required: true }, //ID ของร้านอาหาร
     customer_name: { type: String, required: true },
+    customer_number: { type: String, required: true },
     queue_number: {
       type: Number,
       required: true
@@ -24,7 +25,7 @@ const queueSchema = new Schema(
       required: true
     },
     party_size: {
-      type: Number,
+      type: String,
       required: true
     },
     promotion: {
