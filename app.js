@@ -15,6 +15,7 @@ var adminRouter = require('./routes/admin');
 var restaurantRoute = require('./routes/restaurant');
 var storageRouter = require('./routes/storage');
 var queueRouter = require('./routes/queue');
+var galleryRouter = require('./routes/gallery');
 //Setup Default
 var app = express();
 // view engine setup
@@ -52,6 +53,7 @@ app.use('/storage', storageRouter);
 app.use('/admin',adminRouter);
 app.use('/restaurant',restaurantRoute);
 app.use('/queue',queueRouter);
+app.use('/gallery',galleryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
