@@ -36,10 +36,10 @@ const checkUserRegister = async (userEmail,userPhone)=>{
 const initRestaurant = async (id)=>{
     let _ini = {
         "refID":id,
-        "name": "ชื่อร้านอาหาร",
+        "name": "restaurant name",
         "latitude": 13.729056,
         "longitude": 100.583809,
-        "address": "ที่อยู่",
+        "address": "address",
         "phone": "xxx-xxx-xxxx",
         "reservationRequired": true,
         "status": "inactive",
@@ -80,8 +80,8 @@ const initRestaurant = async (id)=>{
             "open": "off"
           }
         },
-        "notes": "หมายเหตุ",
-        "conditions": ["กฏของการใช้บริการ"],
+        "notes": "notes",
+        "conditions": ["conditions"],
         "logo": "",
     }
     let ret = await Restaurant.create(_ini);
