@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const Admin = require("../models/admin");
+// const Admin = require("../models/admin");
 const moment = require('moment');
 const Restaurant = require("../models/restaurant");
 moment.locale("en-US");
