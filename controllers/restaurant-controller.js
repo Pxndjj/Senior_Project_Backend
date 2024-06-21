@@ -9,19 +9,6 @@ const update = async (obj) => {
   let res = await Restaurant.findOneAndUpdate({ _id: obj._id }, { $set: obj }, { new: true });
   return res;
 }
-const acceptRestuarant = async (id) => {
-  const updateDoc = {
-    $set: {
-      status: 'active',
-    },
-};
-  let res = await Restaurant.findOneAndUpdate({ _id: id }, { $set: updateDoc }, { new: true });
-  return res;
-}
-const remove = async (id) => {
-  const res = await Restaurant.findOneAndDelete({ _id: id });
-  return res;
-}
 const findByID = async (id) => {
   const res = await Restaurant.find({ "refID": id });
   return res;
@@ -82,22 +69,7 @@ const init = async (id) => {
   let res = await Restaurant.create(ini);
   return res;
 }
-const sendMessageAccept = async (restaurantID,userName)=> {
- let recipient = { "user_id": restaurantID,"username":userName };
- let sender = { "user_id": 0,"username":"joyfulwait" };
-  let msg = {
-   "type": "general",
-   "title": "Your information has been verified.",
-   "message": "Your restaurant information will be displayed on the website for customers to search through the system.",
-   "read":false,
-   "recipient":recipient,
-   "sender":sender,
-   "data":{}
-  }
-  let res = await notificationMessage.create(msg);
-  return res;
- }
 
-module.exports = { sendMessageAccept,acceptRestuarant,init, create, update, remove, findByID, findAll,findByRefID }
+module.exports = {init, create, update,findByID, findAll,findByRefID }
 
 

@@ -61,34 +61,12 @@ router.get('/getdatapagebyrefid/:refid', async (req, res, next) => {
     const refid = req.params.refid;
     let result = await restaurantCtl.findByRefID(refid);
     let resID = result ? result[0]._id : 0;
-    let usePackage = await usePackageCtl.findByRefID(resID);
-    let notificationMessage = await notificationCtl.findByRestuarantID(resID);
-    let package_id=usePackage?usePackage[0].package_id:0;
-
-    let packageDetail  = await packageCtl.findByID(package_id);
-    let packageData = {
-      usePackage:usePackage?usePackage[0]:usePackage,
-      packageDetail:packageDetail?packageDetail:packageDetail,
-      notifications:notificationMessage}
-    return res.json(packageData);
+    return res.json();
   } catch (error) {
     console.log(error);
     return res.status(401).send("error");
   }
 });
-
-router.get('/acceptrestaurant/:refid', async (req, res, next) => {
-  try {
-    const refid = req.params.refid;
-    let result = await restaurantCtl.acceptRestuarant(refid);
-    await notificationCtl.update();
-    return res.json(result);
-  } catch (error) {
-    console.log(error);
-    return res.status(401).send("error");
-  }
-});
-
 
 
 module.exports = router;

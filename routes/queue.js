@@ -3,7 +3,7 @@ var router = express.Router();
 const queueCtl = require('../controllers/queue-controller');
 const restaurantCtl = require('../controllers/restaurant-controller');
 
-/* GET home page. */
+
 router.get('/', async (req, res, next) => {
   try {
     return res.json({ message: "this index queue", data: [] });
@@ -11,7 +11,6 @@ router.get('/', async (req, res, next) => {
     return res.status(401).send("error");
   }
 });
-
 
 router.post('/', async (req, res, next) => {
   try {

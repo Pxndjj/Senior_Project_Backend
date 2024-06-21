@@ -92,7 +92,6 @@ const updateRole = async (credentials)=>{
     let up = await User.findOneAndUpdate({_id:credentials.id},{userRole:credentials.role},{ returnOriginal: false }); 
     if (credentials.role=='restaurant') {
         let restaurant = await initRestaurant(credentials.id);
-        // await initPackage(restaurant._id);
     }
   
     return up;
