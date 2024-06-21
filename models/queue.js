@@ -28,9 +28,6 @@ const queueSchema = new Schema(
       type: String,
       required: true
     },
-    promotion: {
-      type: String
-    },
     queue_status: {
       type: String
     },
