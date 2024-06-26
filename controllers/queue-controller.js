@@ -30,15 +30,26 @@ const update = async (obj) => {
     return res;
 }
 const nextQueue = async (refID, queue_status) => {
-    const isKey = moment(new Date()).format("YYYY-MM-DD");
+    let now = moment();
+    let queueDate = moment().startOf('day');
+
+    if (now.hour() < 5) {
+        queueDate.subtract(1, 'days');
+    }
+
+    const isKey = queueDate.format("YYYY-MM-DD");
+    console.log(isKey);
+
     const nextqueue = await Queue.find({ "refID": refID, "queue_date": isKey });
     const _nextqueue = nextqueue.filter((o) => o.queue_used == 0)[0];
+
     if (_nextqueue) {
         _nextqueue.queue_used = 1;
         _nextqueue.queue_status = queue_status;
         await update(_nextqueue);
-        return true
+        return true;
     }
+
     return false;
 }
 const findByID = async (id) => {
