@@ -25,8 +25,8 @@ const init = async (id) => {
   let ini = {
     "name": "",
     "refID": id,
-    "latitude": 16.2407767,
-    "longitude": 97.1406912,
+    "latitude": 0,
+    "longitude": 0,
     "address": "",
     "phone": "",
     "reservationRequired": false,

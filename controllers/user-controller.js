@@ -37,8 +37,8 @@ const initRestaurant = async (id)=>{
     let _ini = {
         "refID":id,
         "name": "restaurant name",
-        "latitude": 13.729056,
-        "longitude": 100.583809,
+        "latitude": 0,
+        "longitude": 0,
         "address": "address",
         "phone": "xxx-xxx-xxxx",
         "reservationRequired": true,
