@@ -1,4 +1,4 @@
-//Library Default
+// Library Default
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,20 +9,16 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 moment.locale("en-US");
 
-//Router
+// Router
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-// var adminRouter = require('./routes/admin');  // ลบการอ้างอิง
 var restaurantRoute = require('./routes/restaurant');
 var storageRouter = require('./routes/storage');
 var queueRouter = require('./routes/queue');
 var galleryRouter = require('./routes/gallery');
 
-//Setup Default
+// Setup Default
 var app = express();
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.json());
@@ -31,18 +27,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const connectMongoDB = require("./libs/mongodb");
 const setupDefaultAdmin = async () => {
-  // const Admin = require("./models/admin");
   const Restaurant = require("./models/restaurant");
   await connectMongoDB();
-  //alter data
   let resValue = (await Restaurant.find()).map((o) => {
     return o._id.toString();
   });
-
-  // const isDefault = await Admin.find();
-  // if (isDefault.length == 0) {
-  //   await Admin.create({ "email": process.env.ADMIN_DEFAULT });
-  // }
 }
 
 setupDefaultAdmin();
@@ -50,7 +39,6 @@ setupDefaultAdmin();
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/storage', storageRouter);
-// app.use('/admin', adminRouter);  // ลบการใช้เส้นทาง admin
 app.use('/restaurant', restaurantRoute);
 app.use('/queue', queueRouter);
 app.use('/gallery', galleryRouter);
@@ -65,7 +53,12 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+
+  // Change the response to JSON format
+  res.json({
+    message: err.message,
+    error: err
+  });
 });
 
 module.exports = app;
