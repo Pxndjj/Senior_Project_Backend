@@ -68,5 +68,26 @@ router.get('/getdatapagebyrefid/:refid', async (req, res, next) => {
   }
 });
 
+router.get('/get/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    let result = await restaurantCtl.findByID(id);
+    return res.json(!result ? result : result[0]);
+  } catch (error) {
+    return res.status(401).send("error");
+  }
+});
+
+router.get('/getRefID/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    let result = await restaurantCtl.findByRefID(id);
+    return res.json(!result ? result : result[0]);
+  } catch (error) {
+    return res.status(401).send("error");
+  }
+});
+
+
 
 module.exports = router;
