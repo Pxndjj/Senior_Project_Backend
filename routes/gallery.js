@@ -4,29 +4,32 @@ var galleryCtl = require('./../controllers/gallery-controller');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-
+// กำหนดที่เก็บไฟล์ที่อัปโหลด
 const uploadDir = path.join(__dirname, '../storage/image/gallery/');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
-
+// กำหนด Multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
+    // กำหนดชื่อไฟล์ใหม่โดยใช้ timestamp กับชื่อเดิมของไฟล์
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
 const upload = multer({ storage: storage });  
 const removeGalleryFile= async (fileName)=>{
-const filePath = `${uploadDir}${fileName}`; 
+  // กำหนด path ของไฟล์ที่ต้องการลบ
+const filePath = `${uploadDir}${fileName}`; // เปลี่ยนเป็น path จริงของไฟล์
+  // ใช้ fs.unlinkSync เพื่อลบไฟล์โดยถาวร
 try {
   if (fs.existsSync(filePath)) {
   fs.unlinkSync(filePath);
   }
 } catch (err) {
-  console.error('An error occurred deleting the file.:', err);
+  console.error('เกิดข้อผิดพลาดในการลบไฟล์:', err);
 }
 }
 

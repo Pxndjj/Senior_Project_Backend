@@ -5,12 +5,24 @@ const create = async (obj) => {
   return res;
 }
 const update = async (obj) => {
-  console.log(obj)
   let res = await Restaurant.findOneAndUpdate({ _id: obj._id }, { $set: obj }, { new: true });
   return res;
 }
+const acceptRestuarant = async (id) => {
+  const updateDoc = {
+    $set: {
+      status: 'active', // เปลี่ยนตามฟิลด์และค่าที่ต้องการอัปเดต
+    },
+};
+  let res = await Restaurant.findOneAndUpdate({ _id: id }, updateDoc, { new: true });
+  return res;
+}
+const remove = async (id) => {
+  const res = await Restaurant.findOneAndDelete({ _id: id });
+  return res;
+}
 const findByID = async (id) => {
-  const res = await Restaurant.find({ "refID": id });
+  const res = await Restaurant.find({ "_id": id });
   return res;
 }
 const findByRefID = async (refID) => {
@@ -21,12 +33,16 @@ const findAll = async () => {
   const res = await Restaurant.find();
   return res;
 }
+const countRestaurants = async () => {
+  const count = await Restaurant.countDocuments();
+  return count;
+};
 const init = async (id) => {
   let ini = {
     "name": "",
     "refID": id,
-    "latitude": 0,
-    "longitude": 0,
+    "latitude": 16.2407767,
+    "longitude": 97.1406912,
     "address": "",
     "phone": "",
     "reservationRequired": false,
@@ -70,6 +86,6 @@ const init = async (id) => {
   return res;
 }
 
-module.exports = {init, create, update,findByID, findAll,findByRefID }
+module.exports = {acceptRestuarant,init, create, update, remove, findByID, findAll,countRestaurants,findByRefID }
 
 

@@ -1,7 +1,9 @@
 const moment = require('moment');
+// const moment = require('moment-timezone');
 moment.locale("en-US");
 const Queue = require("../models/queue");
 const QueueRunningCtl = require("./queue-running-controller");
+// moment.tz.setDefault("Asia/Bangkok");
 
 const getKeyRunning = (queue_date) => {
     let _hour = Number(moment(queue_date).format("HH"));
@@ -10,7 +12,6 @@ const getKeyRunning = (queue_date) => {
     return moment(_date).format("YYYY-MM-DD");
 }
 const create = async (obj) => {
-
     let q_date = moment(obj.time_of_booking).subtract(1, 'months').format("YYYY-MM-DD HH:mm:ss");
     const keyRunning = getKeyRunning(q_date);
     const newId = await QueueRunningCtl.getNextSequenceValue(keyRunning, obj.refID);
@@ -20,8 +21,6 @@ const create = async (obj) => {
     obj.time_of_booking = moment(obj.time_of_booking).subtract(1, 'months').format("YYYY-MM-DD HH:mm:ss");
     obj.queue_used = 0;
     obj.queue_date = keyRunning;
-
-    console.log(obj.time_of_booking);
     let res = await Queue.create(obj);
     return res;
 }

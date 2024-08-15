@@ -16,6 +16,7 @@ router.get("/", async function (req, res) {
 
 router.get('/image/:logo', async (req, res, next) => {
     try {
+        console.log(req.params);
         const imageName = req.params.logo;
         const imagePath = path.join(uploadDir, imageName);
         res.sendFile(imagePath, (err) => {
