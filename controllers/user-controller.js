@@ -106,6 +106,23 @@ const initPackage = async (refID) => {
   return res;
 }
 
+const initMessageUser = async (restaurantID, userName) => {
+  let recipient = { "user_id": restaurantID, "username": userName };
+  let sender = { "user_id": 0, "username": "joyfulwait" };
+  let data = "http://www.google.co.th";
+  let msg = {
+    "type": "general",
+    "read": false,
+    "recipient": recipient,
+    "sender": sender,
+    "data": data,
+    "timestamp": moment(new Date()).format("YYYY-MM-DD"),
+  }
+  let res = await notificationMessage.create(msg);
+  return res;
+}
+
+
 const updateRole = async (credentials) => {
   let _user = await User.findOneAndUpdate({ _id: credentials.id }, { userRole: credentials.role }, { returnOriginal: false });
   if (credentials.role == 'restaurant') {
@@ -113,7 +130,7 @@ const updateRole = async (credentials) => {
     await initPackage(restaurant._id);
   }
   if (credentials.role == 'user') {
-    await initMessageUser(_user.id, _user.userName);
+    await initPackage(_user.id, _user.userName);
   }
   return _user;
 }
