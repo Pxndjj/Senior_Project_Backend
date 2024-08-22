@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var restaurantRoute = require('./routes/restaurant');
 var storageRouter = require('./routes/storage');
+var uploadfile = require('./routes/uploadfile');
 var galleryRouter = require('./routes/gallery');
 var queueRouter = require('./routes/queue');
 var packageRouter = require('./routes/package');
@@ -80,6 +81,7 @@ app.use('/gallery', galleryRouter);
 app.use('/queue', queueRouter);
 app.use('/package', packageRouter);
 app.use('/usepackage', usePackageRouter);
+app.use('/uploadfile', uploadfile);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
