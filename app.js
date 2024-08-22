@@ -17,8 +17,7 @@ var storageRouter = require('./routes/storage');
 var uploadfile = require('./routes/uploadfile');
 var galleryRouter = require('./routes/gallery');
 var queueRouter = require('./routes/queue');
-var packageRouter = require('./routes/package');
-var usePackageRouter = require('./routes/use-package');
+var reviewRouter = require('./routes/review');
 //Setup Default
 var app = express();
 // view engine setup
@@ -35,35 +34,10 @@ const connectMongoDB = require("./libs/mongodb");
 const setupDefaultAdmin = async () => {
   const Admin = require("./models/admin");
   const Restaurant = require("./models/restaurant");
-  const UsePackage = require("./models/use-package");
-  const packageCtl = require("./controllers/package-controller");
   await connectMongoDB();
-  await packageCtl.onIni();
-  //alter data
-  let keyPackageFree = await packageCtl.getID();
   let resValue = (await Restaurant.find()).map((o) => {
     return o._id.toString();
   })
-  let resUsePackageValue = (await UsePackage.find()).map((o) => {
-    return o.refID;
-  })
-  let dataToAlter = resValue.filter(_id =>
-    !resUsePackageValue.some(_id2 => _id2 === _id)
-  );
-
-
-  for (const id of dataToAlter) {
-    let start_date = moment();
-    let end_date = moment().add(1, 'y');
-    let objCreate = {
-      "package_id": keyPackageFree,
-      "refID": id,
-      "status": "active",
-      "start_date": start_date,
-      "end_date": end_date
-    }
-    await UsePackage.create(objCreate);
-  }
   const isDefault = await Admin.find();
   if (isDefault.length == 0) {
     await Admin.create({ "email": process.env.ADMIN_DEFAULT })
@@ -79,11 +53,9 @@ app.use('/admin', adminRouter);
 app.use('/restaurant', restaurantRoute);
 app.use('/gallery', galleryRouter);
 app.use('/queue', queueRouter);
-app.use('/package', packageRouter);
-app.use('/usepackage', usePackageRouter);
 app.use('/uploadfile', uploadfile);
+app.use('/review', reviewRouter);
 
-// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
