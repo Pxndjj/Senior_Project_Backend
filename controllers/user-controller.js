@@ -1,8 +1,6 @@
 const User = require('../models/user');
 const Admin = require("../models/admin");
 const Restaurant = require("../models/restaurant");
-const usePackage = require("../models/use-package");
-const packageCtl = require("../controllers/package-controller");
 const moment = require('moment');
 moment.locale("en-US");
 const create = async (obj) => {
@@ -97,30 +95,14 @@ const initRestaurant = async (id) => {
   let ret = await Restaurant.create(_ini);
   return ret;
 }
-const initPackage = async (refID) => {
-  let pkID = await packageCtl.getID();
-  let start_date = moment();
-  let end_date = moment().add(1, 'y');
-  let obj = { package_id: pkID, refID: refID, status: "A", start_date: start_date, end_date: end_date };
-  let res = await usePackage.create(obj);
-  return res;
-}
 
 const updateRole = async (credentials) => {
   let _user = await User.findOneAndUpdate({ _id: credentials.id }, { userRole: credentials.role }, { returnOriginal: false });
-  if (credentials.role == 'restaurant') {
-    let restaurant = await initRestaurant(_user._id);
-    await initPackage(restaurant._id);
-  }
-  if (credentials.role == 'user') {
-    await initPackage(_user.id, _user.userName);
-  }
   return _user;
 }
 
 module.exports = {
   initRestaurant,
-  initPackage,
   updateRole,
   create,
   update,
