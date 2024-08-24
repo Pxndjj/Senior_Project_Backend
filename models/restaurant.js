@@ -30,7 +30,7 @@ const restaurantSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['active', 'inactive']
+    enum: ['active', 'inactive','reject']
   },
   openingHours: {
     type: {
