@@ -23,16 +23,7 @@ const findAll= async ()=>{
     const res = await Gallery.find();
     return res;
 }
-const init= async (id)=>{
-    let ini =  {
-        refID: "6626f76ff904ce8c713afe8e",
-        path: "abc.png",
-        seq: 1
-      }
 
-    let res = await Gallery.create(ini);
-    return res;
-}
-module.exports ={init,create,update,remove,findByID,findAll,findByRefID}
+module.exports ={create,update,remove,findByID,findAll,findByRefID}
 
 

@@ -17,10 +17,6 @@ const acceptRestuarant = async (id) => {
   let res = await Restaurant.findOneAndUpdate({ _id: id }, updateDoc, { new: true });
   return res;
 }
-const remove = async (id) => {
-  const res = await Restaurant.findOneAndDelete({ _id: id });
-  return res;
-}
 const findByID = async (id) => {
   const res = await Restaurant.find({ "_id": id });
   return res;
@@ -86,6 +82,6 @@ const init = async (id) => {
   return res;
 }
 
-module.exports = {acceptRestuarant,init, create, update, remove, findByID, findAll,countRestaurants,findByRefID }
+module.exports = {acceptRestuarant,init, create, update, findByID, findAll,countRestaurants,findByRefID }
 
 
