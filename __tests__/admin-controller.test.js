@@ -1,38 +1,44 @@
-const { checkAdmin } = require('../controllers/admin-controller');
+const { checkAdmin, init } = require('../controllers/admin-controller');
 const Admin = require('../models/admin');
 
-// Mock the Admin model
 jest.mock('../models/admin');
 
-describe('checkAdmin', () => {
-    it('should return the admin data when the email exists', async () => {
-        // Arrange
-        const mockEmail = 'test@example.com';
-        const mockAdminData = { email: mockEmail };
-        
-        // Mock the Admin.findOne method
-        Admin.findOne.mockResolvedValue(mockAdminData);
-        
-        // Act
-        const result = await checkAdmin(mockEmail);
-        
-        // Assert
-        expect(Admin.findOne).toHaveBeenCalledWith({ $or: [{ email: mockEmail }] });
-        expect(result).toEqual(mockAdminData);
+describe('Admin Controller', () => {
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
-    it('should return null when the email does not exist', async () => {
-        // Arrange
-        const mockEmail = 'notfound@example.com';
-        
-        // Mock the Admin.findOne method
-        Admin.findOne.mockResolvedValue(null);
-        
-        // Act
-        const result = await checkAdmin(mockEmail);
-        
-        // Assert
-        expect(Admin.findOne).toHaveBeenCalledWith({ $or: [{ email: mockEmail }] });
-        expect(result).toBeNull();
+    describe('init', () => {
+        it('should create a new admin record', async () => {
+            const mockAdmin = { email: "admin@gmail.com" };
+            Admin.create.mockResolvedValue(mockAdmin);
+
+            const result = await init();
+
+            expect(result).toEqual(mockAdmin);
+            expect(Admin.create).toHaveBeenCalledWith({ email: "admin@gmail.com" });
+        });
+    });
+
+    describe('checkAdmin', () => {
+        it('should return an admin record if email exists', async () => {
+            const mockAdmin = { email: "admin@gmail.com" };
+            Admin.findOne.mockResolvedValue(mockAdmin);
+
+            const result = await checkAdmin(mockAdmin.email);
+
+            expect(result).toEqual(mockAdmin);
+            expect(Admin.findOne).toHaveBeenCalledWith({ $or: [{ email: mockAdmin.email }] });
+        });
+
+        it('should return null if email does not exist', async () => {
+            Admin.findOne.mockResolvedValue(null);
+
+            const result = await checkAdmin('nonexistent@example.com');
+
+            expect(result).toBeNull();
+            expect(Admin.findOne).toHaveBeenCalledWith({ $or: [{ email: 'nonexistent@example.com' }] });
+        });
     });
 });
