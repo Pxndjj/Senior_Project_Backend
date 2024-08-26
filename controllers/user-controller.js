@@ -96,52 +96,11 @@ const initRestaurant = async (id) => {
   return ret;
 }
 
-// const initMessageRestaurant = async (restaurantID, userName) => {
-//   // message รออนุมัติ
-
-//   let recipient = { "user_id": restaurantID, "username": userName };
-//   let sender = { "user_id": 0, "username": "joyfulwait" };
-//   let msg = {
-//     "type": "wait",
-//     "title": "Greetings, your information is currently under review.",
-//     "message": "Package เริ่มต้นที่ทาง Joyfulwait คือ Free Package ซึ่งฟีเจอร์เบื้องต้นสามารถจองคิวและสร้างเพจได้",
-//     "read": false,
-//     "recipient": recipient,
-//     "sender": sender,
-//     "timestamp": moment(new Date()).format("YYYY-MM-DD"),
-//     "data": {}
-//   }
-//   let res = await notificationMessage.create(msg);
-//   return res;
-// }
-// const initMessageUser = async (restaurantID, userName) => {
-//   // message แนะนำ Promotion
-//   let recipient = { "user_id": restaurantID, "username": userName };
-//   let sender = { "user_id": 0, "username": "joyfulwait" };
-//   let data = "http://www.google.co.th";
-//   let msg = {
-//     "type": "general",
-//     "title": "สวัสดีค",
-//     "message": "Package เริ่มต้นที่ทาง Joyfulwait คือ Free Package ซึ่งฟีเจอร์เบื้องต้นสามารถจองคิวและสร้างเพจได้",
-//     "read": false,
-//     "recipient": recipient,
-//     "sender": sender,
-//     "data": data,
-//     "timestamp": moment(new Date()).format("YYYY-MM-DD"),
-//   }
-//   let res = await notificationMessage.create(msg);
-//   return res;
-// }
-
 const updateRole = async (credentials) => {
   let _user = await User.findOneAndUpdate({ _id: credentials.id }, { userRole: credentials.role }, { returnOriginal: false });
     if (credentials.role == 'restaurant') {
     let restaurant = await initRestaurant(_user._id);
-    // await initMessageRestaurant(restaurant._id, _user.userName);
   }
-  // if (credentials.role == 'user') {
-  //   await initMessageUser(_user.id, _user.userName);
-  // }
   return _user;
 }
 
