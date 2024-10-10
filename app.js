@@ -135,7 +135,7 @@ const sendMessageLine = async () => {
 
         try {
           const formattedTime = moment(item.time_of_booking).format('DD/MM/YYYY HH:mm');
-          const message = `It's almost ${formattedTime} time!`;
+          const message = `It's almost ${formattedTime} time, Customer can come to restaurant.`;
 
           const response = await axios.post(
             'https://api.line.me/v2/bot/message/push',
